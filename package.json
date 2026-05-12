@@ -1,6 +1,6 @@
 {
   "name": "com.zed.unity",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "displayName": "Zed Editor Integration",
   "description": "Integrates Zed as an external code editor for Unity with bidirectional file sync and Roslyn LSP support",
   "unity": "2021.3",
