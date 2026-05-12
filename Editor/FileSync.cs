@@ -37,20 +37,6 @@ namespace Zed.Unity.Editor
             ".asmdef", ".asmref"
         };
 
-        static FileSync()
-        {
-            // Initialize on editor load
-            EditorApplication.update += OnEditorUpdate;
-            EditorApplication.quitting += OnEditorQuitting;
-            
-            _instance = new FileSync();
-            
-            if (ZedConfig.EnableFileSync)
-            {
-                _instance.Initialize();
-            }
-        }
-
         public FileSync()
         {
             _trackedFiles = new Dictionary<string, FileInfo>();
@@ -58,6 +44,8 @@ namespace Zed.Unity.Editor
             _pendingChanges = new HashSet<string>();
             _projectGeneration = new ProjectGeneration();
             _projectPath = ZedUtils.GetProjectPath();
+
+            _instance = this;
         }
 
         /// <summary>
@@ -67,6 +55,10 @@ namespace Zed.Unity.Editor
         {
             if (_isInitialized)
                 return;
+
+            _instance = this;
+            EditorApplication.update += OnEditorUpdate;
+            EditorApplication.quitting += OnEditorQuitting;
 
             try
             {
@@ -96,6 +88,9 @@ namespace Zed.Unity.Editor
         {
             if (!_isInitialized)
                 return;
+
+            EditorApplication.update -= OnEditorUpdate;
+            EditorApplication.quitting -= OnEditorQuitting;
 
             if (_watcher != null)
             {
@@ -438,7 +433,12 @@ namespace Zed.Unity.Editor
         [MenuItem("Tools/Zed/Force Sync")]
         public static void ForceFullSync()
         {
-            _instance?.ForceSync();
+            if (_instance == null)
+            {
+                _instance = new FileSync();
+            }
+
+            _instance.ForceSync();
             Debug.Log("[Zed Unity] Force sync completed.");
         }
     }

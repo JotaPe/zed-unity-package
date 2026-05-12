@@ -23,7 +23,7 @@ namespace Zed.Unity.Editor
 
     // Default values
     private const bool DefaultOpenInNewWindow = false;
-    private const bool DefaultEnableFileSync = true;
+    private const bool DefaultEnableFileSync = false;
     private const float DefaultFileSyncInterval = 1.0f;
     private const bool DefaultEnableLogging = false;
     private const bool DefaultGenerateSlnFile = true;

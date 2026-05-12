@@ -18,7 +18,7 @@ namespace Zed.Unity.Editor
     private static readonly string[] SupportedExtensions = { ".cs", ".shader", ".compute", ".hlsl", ".cginc", ".uss", ".uxml", ".json", ".xml", ".txt", ".md", ".asmdef" };
 
     private readonly ProjectGeneration _projectGeneration;
-    private readonly FileSync _fileSync;
+    private FileSync _fileSync;
 
     static ZedEditor()
     {
@@ -29,7 +29,6 @@ namespace Zed.Unity.Editor
     public ZedEditor()
     {
       _projectGeneration = new ProjectGeneration();
-      _fileSync = new FileSync();
     }
 
     /// <summary>
@@ -223,6 +222,7 @@ namespace Zed.Unity.Editor
       // Initialize file sync if enabled
       if (ZedConfig.EnableFileSync)
       {
+        _fileSync ??= new FileSync();
         _fileSync.Initialize();
       }
     }
